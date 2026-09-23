@@ -2,6 +2,24 @@
 
 **Rohit Dey** · AICTE | IBM SkillsBuild Data Analytics with AI Academic Internship 2026 · BharatCares
 
+
+## Verified student and internship details
+
+- **Name:** Rohit Dey
+- **Institution:** Guru Gobind Singh Educational Society's Technical Campus
+- **Program:** IBM SkillsBuild Data Analytics with AI Internship 2026
+- **Conducted by:** BharatCares, in association with AICTE and IBM SkillsBuild
+- **Mode:** Virtual
+- **Scheduled period:** 17 August 2026–30 September 2026
+- **Stated duration:** 6 weeks, as described in the offer letter
+- **GitHub:** https://github.com/Rohitdey45
+- **Repository:** https://github.com/Rohitdey45/RohitDey-ECommerce-Customer-Churn-Analytics
+
+Institution and schedule are verified from the student-supplied offer letter issued on 22 August 2026. Course, branch, semester and mentor details were not provided and are not invented. Scheduled dates do not imply successful completion. Internship ID and signature are intentionally omitted from the public README; do not publish the signed offer letter.
+
+### Additional offer-letter guidance
+The letter mentions SDG-aligned project development and Week 6 “PPT and Project” submission/presentation. The supplied Google Form shows four document/code upload fields, not a PPT field. Confirm whether a presentation/PPT is required separately. Potential conceptual relevance to **SDG 9 — Industry, Innovation and Infrastructure** is limited to digital analytical capability; no SDG target achievement or measured sustainability impact is established. The actual supplied masterclass decks/workbook, rather than the differently numbered administrative timetable, govern the project's technical workflow.
+
 ## Public source-only repository
 This privacy-conscious copy contains the notebook **without outputs**, tested requirements, document-generation code, aggregate evaluation/audit results and data acquisition instructions. Executed submission report, interactive dashboard, transaction records and customer-level exports are intentionally omitted. They can be generated locally using authorized source data. The four Google Form files are supplied separately in the student submission package.
 
