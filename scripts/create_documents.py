@@ -48,7 +48,7 @@ page();d.add_heading('Report guide',0)
 sections=['Cover Page','Student Details','Internship Details','Abstract','Introduction','Problem Statement','Objectives','Dataset Description','Dataset Source','Data Dictionary','Data Cleaning','Exploratory Data Analysis','Customer-Level Aggregation','RFM Analysis','Churn Definition','Target Leakage Prevention','Machine Learning Methodology','Logistic Regression','Model Evaluation','Confusion Matrix','Customer Churn Probability','Customer Risk Segmentation','Dashboard','Business Insights','Business Actions / Recommendations','Limitations','Future Scope','Conclusion','References']
 for i,name in enumerate(sections,1):p(f'{i:02d}  {name}')
 page();h(2,'Student Details');table(['Field','Detail'],[['Student name','Rohit Dey'],['Project title',TITLE],['Role','Student analyst / project author']])
-p('No institution, student ID, mentor identity or completion claim has been invented. No private email address or class-chat participant information is included.')
+p('Institution is recorded from the supplied offer-letter undertaking. Course, branch, semester and mentor identity are not provided and have not been inferred. No completion claim is made.')
 h(3,'Internship Details');p('AICTE | IBM SkillsBuild Data Analytics with AI Academic Internship 2026, conducted by BharatCares in association with AICTE and IBM SkillsBuild. Supplied Masterclass 1–3 materials govern the learning workflow. The provided form screenshots require a notebook/code file, requirements.txt, Word report and Markdown README, plus an actual GitHub repository URL.')
 h(4,'Abstract');p(f"This project reconstructs {s['raw_rows']:,} transaction records from the supplied official practice PDF, audits quality, and develops descriptive sales analysis and customer-level RFM features. After exact deduplication, {s['clean_master_rows']:,} records remain in the cleaned master. The sales view includes {s['total_orders']:,} orders with observed revenue of INR {s['total_revenue']:,.0f}; the separate identifiable customer-event view contains {s['total_customers']} customers. A snapshot at {s['cutoff']} separates historical features from a subsequent 180-day inactivity outcome. Of {s['cohort_customers']} eligible historical customers, {s['churned']} had no observed future purchase ({s['churn_rate']:.2%}). Logistic Regression is evaluated on {s['test_customers']} held-out customers. Accuracy is {s['metrics']['Accuracy']:.2%}, ROC-AUC is {s['metrics']['ROC_AUC']:.4f}, but precision, recall and F1 are zero at threshold 0.50. The dashboard therefore supports transparent exploration and further validation rather than automated retention decisions.")
 h(5,'Introduction');p('E-commerce transaction records can describe past performance and inform customer-retention questions. RFM summarizes how recently, how often and how much customers purchase. Predictive usefulness requires an outcome observed after the information used to generate a prediction. The project follows Raw Data → Clean Data → EDA → Business Insights → Prediction → Dashboard → Business Decision.')
@@ -126,6 +126,33 @@ h(27,'Future Scope');bullets(['Obtain and reconcile the original workbook, missi
 h(28,'Conclusion');p('The completed notebook, report and dashboard demonstrate the official cleaning, EDA, RFM, Logistic Regression, evaluation and risk workflow using executed results only. The key scientific conclusion is not that the model is ready to predict churn well: it misses all seven held-out inactive customers at the chosen threshold. Honest baseline comparison, leakage prevention and transparent limitations make the project reproducible and academically defensible. Better data and temporal evaluation are prerequisites to any live retention deployment.')
 h(29,'References');bullets(['Official supplied AI_Powered_Data_Analytics_Theory_Deck - Masterclass 1.pdf, 14 pages: raw data, quality and analytical questions.','Official supplied AI_Powered_Data_Analytics_Theory_Deck - Masterclass 2.pdf, 16 pages: EDA, observations/insights and verification.','Official supplied Masterclass3_Student_Workbook.pdf, 31 pages: customer aggregation/RFM; p.12 conflicting churn rules; pp.14–18 leakage-safe modelling; pp.22–29 risk bands and actions.','Official supplied '+s['source_filename']+', 95 pages: source data and prompts.','Supermarket Sales Analysis DA project.pdf, 2 pages: structural example only; no numerical result or dataset copied.','GMT20260916-104325_RecordingnewChat.txt: participant chat context, not a verbatim lecture transcript. Generic Kaggle links are not dataset verification.','Supplied Google Form screenshots image-1.png, image-2.png, image-3.png: required files, upload sizes and GitHub repository field.','pandas documentation: https://pandas.pydata.org/docs/','scikit-learn documentation: https://scikit-learn.org/stable/','Plotly Python documentation: https://plotly.com/python/'])
 p('AI assistance disclosure: AI-assisted code and documentation preparation was used. Numerical results originate from execution against the supplied practice PDF. Rohit Dey should review, understand and comply with institutional disclosure rules before submission. This document does not claim external certification or trainer approval.')
+# Verified offer-letter metadata; private ID is read only from an optional local file.
+private_details_path = ROOT/'data'/'student_details.json'
+private_details = json.loads(private_details_path.read_text()) if private_details_path.exists() else {}
+student_table = d.tables[0]
+for label, value in [
+    ('Institution', "Guru Gobind Singh Educational Society's Technical Campus"),
+    ('Internship ID', private_details.get('internship_id', 'Not included in public source copy')),
+    ('Mode', 'Virtual'),
+    ('Scheduled period', '17 August 2026 to 30 September 2026'),
+    ('Stated duration', '6 weeks, as stated in the offer letter'),
+    ('Offer-letter issue date', '22 August 2026')]:
+    row = student_table.add_row().cells
+    row[0].text = label; row[1].text = value
+# Insert internship context within section 03, rather than claiming completion.
+for para in d.paragraphs:
+    if para.text.startswith('AICTE | IBM SkillsBuild Data Analytics with AI Academic Internship 2026, conducted'):
+        para.add_run(' The offer letter confirms virtual mode, a stated six-week duration, and a scheduled period of 17 August to 30 September 2026. These are scheduled dates, not evidence of successful completion. The offer was issued on 22 August 2026; the issue date is not treated as the start date.')
+    if para.text == 'Prepared by: Rohit Dey':
+        para.add_run("\nInstitution: Guru Gobind Singh Educational Society's Technical Campus\nScheduled internship: 17 August–30 September 2026 | Virtual")
+    if para.text.startswith('This document does not claim'):
+        pass
+# References: offer letter is a private administrative source, not a public attachment.
+for para in d.paragraphs:
+    if para.text.startswith('AI assistance disclosure:'):
+        para.insert_paragraph_before('Administrative reference: supplied signed internship offer letter, issued 22 August 2026, three pages. Used to verify institution, internship identity, mode and schedule. Signature and the signed letter are not reproduced or publicly distributed.')
+        para.insert_paragraph_before('Additional program guidance: the offer letter mentions UN SDG-aligned project development and Week 6 “PPT and Project” submission/presentation. The supplied Google Form screenshots still specify four upload files; no separate PPT upload field is shown. Confirm any separate presentation requirement with the trainer. Potential conceptual relevance to SDG 9 (innovation and digital analytical capability) can be discussed, but this project does not measure sustainability impact or demonstrate achievement of an SDG target. The administrative timeline numbers masterclasses differently from the supplied teaching decks; the actual decks/workbook remain the primary technical references.')
+
 d.save(ROOT/'RohitDey_ProjectReport.docx')
 # README uses the same executed summary.
 structure='''RohitDey-ECommerce-Customer-Churn-Analytics/
@@ -337,7 +364,7 @@ Raw PDF, raw/reconstructed Excel, cleaned transactions, row provenance and custo
 ## Submission and placeholders
 Use `SUBMISSION_GUIDE.md` for exact Google Form upload mapping and checklist. The four mandatory files are the notebook, requirements.txt, RohitDey_ProjectReport.docx and README.md; HTML/ZIP are additional downloads, not replacements for these fields.
 
-Remaining student action: create a repository, enter its real URL in the Google Form, and fill your personal form fields accurately. The dataset URL placeholder remains only until a verified trainer link is supplied; do not invent one. The report does not require an invented institution or mentor name.
+Repository created by the student: https://github.com/Rohitdey45/RohitDey-ECommerce-Customer-Churn-Analytics. Verify its contents/access and paste this actual URL into the Google Form; fill personal form fields accurately. The dataset URL placeholder remains only until a verified trainer link is supplied; do not invent one. The report does not require an invented institution or mentor name.
 
 ## References and authorship
 Primary references: supplied Masterclass 1 theory deck; Masterclass 2 theory deck; Masterclass 3 student workbook (especially pp.12–18 and 22–29); official practice PDF; Google Form screenshots. Supermarket reference is structural only. Chat is not a lecture transcript.
@@ -346,5 +373,6 @@ Software documentation: https://pandas.pydata.org/docs/ · https://scikit-learn.
 
 **Author: Rohit Dey.** AI assisted code and documentation preparation; computed results come from notebook execution. Review the work and follow institutional AI-disclosure rules before submission. No internship completion or trainer approval is claimed.
 '''
+readme = readme.replace('## Overview and problem statement', "\n## Verified student and internship details\n\n- **Name:** Rohit Dey\n- **Institution:** Guru Gobind Singh Educational Society's Technical Campus\n- **Program:** IBM SkillsBuild Data Analytics with AI Internship 2026\n- **Conducted by:** BharatCares, in association with AICTE and IBM SkillsBuild\n- **Mode:** Virtual\n- **Scheduled period:** 17 August 2026–30 September 2026\n- **Stated duration:** 6 weeks, as described in the offer letter\n- **GitHub:** https://github.com/Rohitdey45\n- **Repository:** https://github.com/Rohitdey45/RohitDey-ECommerce-Customer-Churn-Analytics\n\nInstitution and schedule are verified from the student-supplied offer letter issued on 22 August 2026. Course, branch, semester and mentor details were not provided and are not invented. Scheduled dates do not imply successful completion. Internship ID and signature are intentionally omitted from the public README; do not publish the signed offer letter.\n\n### Additional offer-letter guidance\nThe letter mentions SDG-aligned project development and Week 6 “PPT and Project” submission/presentation. The supplied Google Form shows four document/code upload fields, not a PPT field. Confirm whether a presentation/PPT is required separately. Potential conceptual relevance to **SDG 9 — Industry, Innovation and Infrastructure** is limited to digital analytical capability; no SDG target achievement or measured sustainability impact is established. The actual supplied masterclass decks/workbook, rather than the differently numbered administrative timetable, govern the project's technical workflow.\n\n" + '## Overview and problem statement')
 (ROOT/'README.md').write_text(readme,encoding='utf-8')
 print('Report and README generated from executed results.')
