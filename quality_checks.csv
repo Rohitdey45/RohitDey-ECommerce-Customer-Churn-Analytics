@@ -1,0 +1,14 @@
+Check,Passed
+Raw unchanged,True
+Excel round trip,True
+Page alignment,True
+Text crosscheck,True
+Customer uniqueness,True
+No duplicate clean orders,True
+Time separation,True
+No split overlap,True
+Probabilities bounded,True
+Risk sorted,True
+Metrics finite,True
+Dashboard exists,True
+Required charts exist,True

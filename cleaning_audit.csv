@@ -1,0 +1,14 @@
+Action,Affected,Reason
+Exact duplicates removed,23,All nine source fields identical; prevent double counting.
+Invalid dates set to NaT,24,Impossible calendar dates cannot be safely inferred.
+Category case/space normalization,281,Merge equivalent labels only.
+Region case/space normalization,285,Merge equivalent labels only.
+Product missing labelled Unknown,6,Keep valid revenue; make missing dimension visible.
+Region missing labelled Unknown,16,Keep valid revenue; make missing dimension visible.
+Quantity nonmissing text values parsed,1956,Convert reconstructed text to numeric for arithmetic.
+Revenue nonmissing text values parsed,1950,Convert reconstructed text to numeric for arithmetic.
+Profit nonmissing text values parsed,1948,Convert reconstructed text to numeric for arithmetic.
+Suspect purchases quarantined,41,Return versus data error cannot be resolved; no sign-flipping.
+Negative profit retained,15,A loss is possible; not inherently an error.
+Sales-view rows excluded,92,"Invalid date, absent revenue or suspect purchase; retained in cleaned master."
+Customer-event rows excluded,91,"Invalid date, absent customer ID or suspect purchase; missing revenue allowed."

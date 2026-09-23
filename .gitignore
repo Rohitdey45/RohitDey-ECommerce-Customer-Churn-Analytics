@@ -1,0 +1,36 @@
+# Official data and local derivatives: no redistribution permission assumed.
+data/*
+!data/README.md
+uploads/
+*.xlsx
+*.xls
+*.pdf
+outputs/cleaned_transactions.csv
+outputs/sales_quarantine.csv
+outputs/pdf_row_provenance.csv
+outputs/customer_*.csv
+outputs/historical_customer_dataset.csv
+outputs/heldout_predictions.csv
+outputs/top20_risk_customers.csv
+# Secrets, caches, environments
+.env
+.env.*
+*.pem
+*.key
+credentials*
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+# Use public-safe export, not blind public upload of executed files.
+
+# Public copy: generated outputs remain local.
+outputs/*
+!outputs/model_metrics.csv
+!outputs/confusion_matrix.csv
+!outputs/quality_checks.csv
+!outputs/cleaning_audit.csv
+!outputs/pdf_extraction_audit.csv
+dashboard/
+RohitDey_ProjectReport.docx
+SUBMISSION_GUIDE.md
